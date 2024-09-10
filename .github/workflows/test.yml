@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint-and-format:
-    name: tests
+    name: shellcheck
     runs-on: ubuntu-latest
 
     steps:
@@ -19,3 +19,17 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
           additional_files: "run"
+
+  hadolint:
+    name: hadolint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        if: ${{ !cancelled() }}
+        with:
+          dockerfile: ./Dockerfile
